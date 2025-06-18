@@ -1,4 +1,4 @@
-# 🎓 Study Vault – Cloud Notes to Audio 🔊
+# 🎓 Text-to-Audio – Cloud Notes to Audio 🔊
 
 Transform your text notes into voice using the power of **AWS S3**, **Lambda**, and **Polly** – all from a simple and elegant web interface.
 
@@ -22,7 +22,7 @@ Transform your text notes into voice using the power of **AWS S3**, **Lambda**, 
 |-----------------|-------------------------|
 | HTML, CSS       | AWS S3 – File Storage   |
 | JavaScript (JS) | AWS Lambda – Processing |
-|                 | AWS Polly – TTS Engine  |
+| AWS             | AWS Polly – TTS Engine  |
 |                 | IAM – Secure Access     |
 
 ---
