@@ -23,7 +23,7 @@ Transform your text notes into voice using the power of **AWS S3**, **Lambda**, 
 | HTML, CSS       | AWS S3 – File Storage   |
 | JavaScript (JS) | AWS Lambda – Processing |
 | AWS             | AWS Polly – TTS Engine  |
-|                 | IAM – Secure Access     |
+| Security        | IAM – Secure Access     |
 
 ---
 
