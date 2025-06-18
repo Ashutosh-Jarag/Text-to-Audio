@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Study Vault</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 80px;
+      background-color: #f9f9f9;
+    }
+
+    h1 {
+      display: inline-block;
+      padding: 10px 30px;
+      background-color: white;
+      border: 2px solid black;
+      box-shadow: 5px 5px 0 black;
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .upload-area {
+      margin-top: 30px;
+    }
+
+    input[type="file"] {
+      display: block;
+      margin: 20px auto;
+    }
+
+    button {
+      padding: 8px 20px;
+      font-size: 16px;
+      background-color: white;
+      border: 2px solid black;
+      box-shadow: 3px 3px 0 black;
+      cursor: pointer;
+    }
+
+    button:hover {
+      transform: translate(1px, 1px);
+      box-shadow: 2px 2px 0 black;
+    }
+
+    .output {
+      margin-top: 40px;
+      font-size: 18px;
+    }
+
+    .output-box {
+      display: inline-block;
+      padding: 20px 2px;
+      border: 2px solid black;
+      box-shadow: 3px 3px 0 black;
+      background-color: #fff;
+      min-width: 200px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Study Vault</h1>
+
+  <div class="upload-area">
+    <p>Upload your file here …</p>
+    <input type="file" id="fileUpload">
+    <button onclick="uploadFile()">upload</button>
+  </div>
+
+  <div class="output">
+    <p>Your Audio is Here -&gt;</p>
+    <div class="output-box" id="audioLink">
+      <!-- Link appears here -->
+    </div>
+  </div>
+
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1479.0.min.js"></script>
+  <script>
+    // Replace with your IAM credentials
+    AWS.config.update({
+      accessKeyId: 'accessKeyId',
+      secretAccessKey: 'secretAccessKey',
+      region: 'your-region' // Change to your region
+    });
+
+    var s3 = new AWS.S3({params: {Bucket: 'study-vault-notes'}});
+
+    function uploadFile() {
+      var files = document.getElementById('fileUpload').files;
+      if (!files.length) {
+        return alert("Please choose a file first.");
+      }
+
+      var file = files[0];
+      var fileName = "notes/" + file.name;
+
+      var params = {
+        Key: fileName,
+        Body: file,
+        ContentType: 'text/plain'
+      };
+
+      document.getElementById("audioLink").innerText = "Uploading...";
+
+      s3.upload(params, function(err, data) {
+        if (err) {
+          alert("Upload failed: " + err);
+        } else {
+          document.getElementById("audioLink").innerText = "Processing...";
+          setTimeout(() => {
+            let audioKey = "audio/" + file.name.replace(".txt", ".mp3");
+            let audioURL = `https://${data.Bucket}.s3.eu-north-1.amazonaws.com/${audioKey}`;  
+            document.getElementById("audioLink").innerHTML =
+              `<a href="${audioURL}" target="_blank">🎧 Download Audio</a>`;
+          }, 15000);
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
